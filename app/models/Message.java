@@ -1,10 +1,17 @@
 package models;
 
 import org.joda.time.DateTime;
-import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import javax.persistence.*;
 
+
+/**
+ * <p>
+ * Represents the message entity.
+ * </p>
+ *
+ * @author Mikhail Vatalev(m.vatalev@euroats.com)
+ */
 
 @Entity
 @Table(name = "messages")

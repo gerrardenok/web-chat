@@ -1,10 +1,17 @@
 package models;
 
-import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import javax.persistence.*;
 
 import java.util.List;
+
+/**
+ * <p>
+ * Represents the chat room entity.
+ * </p>
+ *
+ * @author Mikhail Vatalev(m.vatalev@euroats.com)
+ */
 
 @Entity
 @Table(name = "rooms")

@@ -7,6 +7,14 @@ import javax.persistence.*;
 import system.UserRole;
 import java.util.List;
 
+/**
+ * <p>
+ * Represents the User entity.
+ * </p>
+ *
+ * @author Mikhail Vatalev(m.vatalev@euroats.com)
+ */
+
 @Entity
 @Table(name = "users")
 public abstract class User extends Model {
@@ -55,7 +63,7 @@ public abstract class User extends Model {
 
     public static final Finder<String, User> find = new Finder<String, User>(String.class, User.class);
 
-    public static User findByEmail(final Long id) {
-        return find.where().eq("email", id).findUnique();
+    public static User findByEmail(final String email) {
+        return find.where().eq("email", email).findUnique();
     }
 }
