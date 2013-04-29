@@ -1,0 +1,21 @@
+@(title: String, scripts: Html = Html(""))(content: Html)(implicit classForContentContainer: String = "")
+
+@boilerplate(title, scripts) {
+    <div class="container">
+        <div class="header">
+            @template.header()
+        </div> <!--/footer-->
+    </div> <!--/container-->
+
+    <div class="container">
+        <div class="@classForContentContainer">
+            @content
+        </div> <!--/content-->
+    </div> <!--/container-->
+
+    <div class="container">
+        <div class="footer">
+            @template.footer()
+        </div> <!--/footer-->
+    </div> <!--/container-->
+}

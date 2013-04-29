@@ -1,0 +1,19 @@
+@(elements: helper.FieldElements)
+
+@implicitFieldConstructor = @{ helper.FieldConstructor(helper.twitterBootstrap.inlineInput.render) }
+
+<div class="control-group input-file-group">
+    <label class="control-label" for="@elements.id">@elements.label:</label>
+    <div class="controls">
+        @for(i <- 1 to elements.args.get('_groupSize).get.asInstanceOf[Int]) {
+
+            <div class="input-file-wrapper">
+                <input type="text"  class="input-text-fake" readonly="readonly">
+                <input type="button" value="@Messages("appointment.make.img.upload.btn")" class="file-input-btn krp-btn" />
+                @helper.inputFile(field = elements.args.get(Symbol("_field" + i)).get.asInstanceOf[play.data.Form.Field])
+            </div>
+        }
+    </div>
+</div>
+
+

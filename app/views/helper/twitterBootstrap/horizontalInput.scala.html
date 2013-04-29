@@ -1,0 +1,32 @@
+@(elements: helper.FieldElements)
+
+@***************************************************
+* Generate input according twitter bootstrap rules *
+***************************************************@
+@elements.args.get('_inputType) match {
+    case Some("checkbox") => {
+        <div class="control-group">
+            @elements.input
+            <label class="checkbox" for="@elements.id">
+                @elements.label
+            </label>
+        </div>
+    }
+    case Some("fee") => {
+        @helper.twitterBootstrap.horizontal.fee(elements)
+    }
+    case Some("file-group") => {
+        @helper.twitterBootstrap.horizontal.inputFileGroup(elements)
+    }
+    case _ => {
+        <div class="control-group @if(elements.hasErrors) {error}">
+            <label class="control-label" for="@elements.id">@elements.label:</label>
+            <div class="controls">
+                @elements.input
+                <span class="help-inline">@elements.infos.mkString(", ")</span>
+                <span class="help-block">@elements.errors(elements.lang).mkString(", ")</span>
+            </div>
+        </div>
+    }
+}
+

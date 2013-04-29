@@ -1,0 +1,11 @@
+@(elements: helper.FieldElements)
+
+@implicitFieldConstructor = @{ helper.FieldConstructor(helper.twitterBootstrap.inlineInput.render) }
+
+<div class="control-group field-combined-fee">
+    <label class="control-label" for="@elements.id">@elements.label:</label>
+    <div class="controls">
+        @helper.inputText(field = elements.args.get('_feeField).get.asInstanceOf[play.data.Form.Field])
+        @helper.select(field = elements.args.get('_currencyField).get.asInstanceOf[play.data.Form.Field], options = elements.args.get('_currencyOptions).get.asInstanceOf[Seq[(String, String)]])
+    </div>
+</div>

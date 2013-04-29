@@ -1,0 +1,10 @@
+#Page template
+project.name=Web-chat
+
+page.footer.title=This is my footer
+page.header.links.home=Home
+page.header.links.profile=Profile
+page.header.links.rooms=Rooms
+
+# Page titles
+page.home.title=Home page
