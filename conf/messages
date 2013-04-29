@@ -1,3 +1,14 @@
+# System web
+web.form.email=email
+web.form.name=name
+web.form.password=password
+
+web.btn.login=login
+
+web.user.sign_out=Sign Out
+web.user.sign_in=Sign In
+web.user.sign_up=Sign Up
+
 #Page template
 project.name=Web-chat
 
@@ -8,3 +19,7 @@ page.header.links.rooms=Rooms
 
 # Page titles
 page.home.title=Home page
+page.sign_up.title=Sign Up page
+
+#login form
+login.registration.offer=If you haven''t account you may

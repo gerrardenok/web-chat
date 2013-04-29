@@ -1,0 +1,19 @@
+@(loginForm: Form[data.UserDTO])
+
+@import helper._
+@import scala.collection.immutable._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrap.horizontalInput.render) }
+<h4>@Messages("web.user.sign_in")</h4>
+@helper.form(action = routes.Users.signIn(), 'id -> "registrationForm") {
+    @helper.inputText(loginForm("email"), 'type -> "email", '_showConstraints -> false, '_label -> Messages("web.form.email"))
+    @helper.inputPassword(loginForm("password"), '_showConstraints -> false, '_label -> Messages("web.form.password"))
+
+    <div class="actions">
+        <input type="submit" value="@Messages("web.btn.login")" class="btn btn-primary span3">
+    </div>
+}
+<p>
+    <span>@Messages("login.registration.offer")</span>
+    <a href="@routes.Users.signUp()">@Messages("web.user.sign_up")</a>
+</p>

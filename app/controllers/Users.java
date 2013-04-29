@@ -15,7 +15,7 @@ import views.html.*;
 public class Users extends Controller{
 
     public static Result signUp() {
-        return ok();
+        return ok(views.html.pages.sign_up.render());
     }
 
     public static Result signIn() {

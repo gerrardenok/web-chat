@@ -1,5 +1,10 @@
-@(message: String)
+@(loginForm: Form[data.UserDTO])
 
 @template_main(Messages("page.home.title")) {
-    <h1>Test page</h1>
+    <div class="row">
+        <div class="span8">Main part</div>
+        <div class="span4">
+            @tags.form.login(loginForm)
+        </div>
+    </div>
 }

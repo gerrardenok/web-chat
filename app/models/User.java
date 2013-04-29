@@ -20,14 +20,11 @@ import java.util.List;
 public abstract class User extends Model {
 
     @Id
-    @Constraints.Email
     public String email;
 
-    @Constraints.Required
     @Column(nullable = false)
     public String name;
 
-    @Constraints.Required
     @Column(nullable = false)
     private String password;
 
@@ -44,6 +41,10 @@ public abstract class User extends Model {
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     @OrderBy("id")
     public List<Message> messages;
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    public User(){}
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
