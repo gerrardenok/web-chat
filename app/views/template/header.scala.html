@@ -1,12 +1,21 @@
 @()
 
+@import security.UserSecurityHelper
+
 <div class="navbar">
     <div class="navbar-inner">
-        <a class="brand" href="#">@Messages("project.name")</a>
+        <a class="brand" href="@routes.Application.index()">@Messages("project.name")</a>
         <ul class="nav">
             <li class="active"><a href="#">@Messages("page.header.links.home")</a></li>
-            <li><a href="#">@Messages("page.header.links.profile")</a></li>
-            <li><a href="#">@Messages("page.header.links.rooms")</a></li>
+            @if(UserSecurityHelper.isUserLogged()){
+                <li><a href="#">@Messages("page.header.links.profile")</a></li>
+                <li><a href="#">@Messages("page.header.links.rooms")</a></li>
+            }
         </ul>
+        @if(UserSecurityHelper.isUserLogged()){
+            <div class="pull-right">
+                <a href="@routes.Users.signOut()">@Messages("web.btn.logout")</a>
+            </div>
+        }
     </div>
 </div>

@@ -5,6 +5,7 @@ import play.mvc.*;
 import models.User;
 import data.UserDTO;
 import play.data.Form;
+import actions.GlobalContextParams;
 
 import views.html.*;
 
@@ -17,7 +18,7 @@ import views.html.*;
  * @author Mikhail Vatalev(m.vatalev@euroats.com)
  */
 
-
+@With(GlobalContextParams.class)
 public class Application extends Controller {
     public static Result index() {
         Form<UserDTO> loginForm = Form.form(UserDTO.class);

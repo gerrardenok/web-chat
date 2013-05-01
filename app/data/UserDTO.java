@@ -9,7 +9,19 @@ public class UserDTO {
     public String email;
 
     @Constraints.Required
-    private String password;
+    public String password;
+
+    public String name;
 
     public UserDTO() {}
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~
+
+    public String toString() {
+        return "UserDTO{" +
+                "email:"+email+
+                ", name:"+name+
+                ", password:"+password
+                +"}";
+    }
 }

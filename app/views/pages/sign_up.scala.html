@@ -1,10 +1,14 @@
-@()
+@(registrationForm: Form[data.UserDTO])
+
+@import helper._
+@import scala.collection.immutable._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrap.horizontalInput.render) }
 
 @template_main(Messages("page.sign_up.title")) {
     <div class="row">
         <div class="span12">
-
-
+           @tags.form.registration(registrationForm)
         </div>
     </div>
 }

@@ -7,6 +7,8 @@ import javax.persistence.*;
 import system.UserRole;
 import java.util.List;
 
+import data.UserDTO;
+
 /**
  * <p>
  * Represents the User entity.
@@ -17,7 +19,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
-public abstract class User extends Model {
+public class User extends Model {
 
     @Id
     public String email;
@@ -55,6 +57,11 @@ public abstract class User extends Model {
         this.role = UserRole.USER;
     }
 
+    public User(UserDTO user) {
+        this(user.email, user.name, user.password);
+    }
+
+
     public User(String email, String name, String password, UserRole role) {
         this(email, name, password);
         this.role = role;
@@ -66,5 +73,15 @@ public abstract class User extends Model {
 
     public static User findByEmail(final String email) {
         return find.where().eq("email", email).findUnique();
+    }
+
+    public static User findByEmailAndPassword(final String email, final String password) {
+        return find.where().eq("email", email).eq("password", password).findUnique();
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    public boolean isPasswordChecked(String password) {
+        return this.password.equals(password);
     }
 }
