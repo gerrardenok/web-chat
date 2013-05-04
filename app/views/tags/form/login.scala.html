@@ -1,4 +1,4 @@
-@(loginForm: Form[data.UserDTO])
+@(loginForm: Form[data.AuthUser])
 
 @import helper._
 @import scala.collection.immutable._
@@ -9,8 +9,11 @@
     @helper.inputText(loginForm("email"), 'type -> "email", '_showConstraints -> false, '_label -> Messages("web.form.email"))
     @helper.inputPassword(loginForm("password"), '_showConstraints -> false, '_label -> Messages("web.form.password"))
 
-    <div class="actions">
-        <input type="submit" value="@Messages("web.btn.login")" class="btn btn-primary span3">
+
+    <div class="control-group">
+        <div class="controls">
+            <input type="submit" value="@Messages("web.btn.login")" class="btn btn-primary span2">
+        </div>
     </div>
 }
 <p>

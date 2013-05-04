@@ -2,7 +2,7 @@ package data;
 
 import play.data.validation.Constraints;
 
-public class UserDTO {
+public class AuthUser {
 
     @Constraints.Required
     @Constraints.Email
@@ -11,20 +11,13 @@ public class UserDTO {
     @Constraints.Required
     public String password;
 
-    @Constraints.Required
-    public String name;
-
-    public UserDTO() {
-        // add default value for correct working of form validation
-        name = "";
-    }
+    public AuthUser() {}
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~
 
     public String toString() {
-        return "UserDTO{" +
+        return "AuthUser(){" +
                 "email:"+email+
-                ", name:"+name+
                 ", password:"+password
                 +"}";
     }

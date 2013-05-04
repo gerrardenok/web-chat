@@ -25,3 +25,5 @@ page.sign_up.title=Sign Up page
 
 #login form
 login.registration.offer=If you haven''t account you may
+
+users.list.caption=Users list

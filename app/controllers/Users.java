@@ -1,5 +1,6 @@
 package controllers;
 
+import data.AuthUser;
 import org.apache.commons.lang3.StringUtils;
 import play.data.Form;
 import play.mvc.*;
@@ -9,6 +10,9 @@ import data.UserDTO;
 import security.UserSecurityHelper;
 
 import play.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -26,24 +30,25 @@ public class Users extends Application{
     }
 
     public static Result signIn() {
-        Form<UserDTO> authorizationForm = Form.form(UserDTO.class).bindFromRequest();
+        Form<AuthUser> authorizationForm = Form.form(AuthUser.class).bindFromRequest();
 
         // form validation
         if(authorizationForm.hasErrors()) {
-            return badRequest();
+            List<User> users_stub = new ArrayList<>();
+            return badRequest(views.html.pages.home.render(authorizationForm, users_stub));
         }
 
-        UserDTO userDTO = authorizationForm.get();
+        AuthUser authUser = authorizationForm.get();
         // Logger.info("Form binding, user: " + userDTO);
 
         // User validation
-        if(!UserSecurityHelper.isUserMayLogin(userDTO)) {
+        if(!UserSecurityHelper.isUserMayLogin(authUser)) {
             return forbidden();
         }
 
         // save user in session
-        ctx().session().put("user_email", userDTO.email);
-        Logger.info("login success, user_email: " + userDTO.email);
+        ctx().session().put("user_email", authUser.email);
+        Logger.info("login success, user_email: " + authUser.email);
 
         return redirect(routes.Application.index());
     }
@@ -61,7 +66,8 @@ public class Users extends Application{
 
         // form validation
         if(userForm.hasErrors()) {
-            return badRequest();
+            // stub
+            return badRequest(views.html.pages.sign_up.render(userForm));
         }
 
         UserDTO userDTO = userForm.get();

@@ -84,4 +84,8 @@ public class User extends Model {
     public boolean isPasswordChecked(String password) {
         return this.password.equals(password);
     }
+
+    public String getUserRole() {
+        return role.name();
+    }
 }

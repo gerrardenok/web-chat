@@ -1,5 +1,6 @@
 package security;
 
+import data.AuthUser;
 import models.User;
 import data.UserDTO;
 import actions.GlobalContextParams;
@@ -24,10 +25,10 @@ public class UserSecurityHelper {
 
     /**
      * Check is user may to login in system
-     * @param userDTO UserDTO data binding from login form
+     * @param authUser AuthUser data binding from login form
      */
-    public static boolean isUserMayLogin(UserDTO userDTO) {
-        return (User.findByEmailAndPassword(userDTO.email, userDTO.password) != null);
+    public static boolean isUserMayLogin(AuthUser authUser) {
+        return (User.findByEmailAndPassword(authUser.email, authUser.password) != null);
     }
 
     /**
