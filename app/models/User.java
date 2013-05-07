@@ -1,10 +1,14 @@
 package models;
 
+import play.Logger;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import javax.persistence.*;
 
 import system.UserRole;
+import start.RootUserSettings;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import data.UserDTO;
@@ -37,7 +41,7 @@ public class User extends Model {
     @JoinTable(name="user_room",
             joinColumns={@JoinColumn(name="user_email", referencedColumnName="email")},
             inverseJoinColumns={@JoinColumn(name="room_id", referencedColumnName="id")})
-    public List<ChatRoom> rooms;
+    public List<ChatRoom> rooms = new ArrayList<>();
 
     /*Confusing moment*/
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
@@ -79,6 +83,14 @@ public class User extends Model {
         return find.where().eq("email", email).eq("password", password).findUnique();
     }
 
+    public static List<User> findAdmins() {
+        return find.where().eq("role", UserRole.ADMIN).findList();
+    }
+
+    public static User findRoot() {
+        return find.where().eq("email", RootUserSettings.EMAIL).findUnique();
+    }
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     public boolean isPasswordChecked(String password) {
@@ -88,4 +100,38 @@ public class User extends Model {
     public String getUserRole() {
         return role.name();
     }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public void joinToChatRoom(ChatRoom room) {
+        //User join to room
+        this.rooms.add(room);
+        this.update();
+
+        Logger.info(String.format("%s join to room %s ", this, room));
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "email:"+email+
+                ", name:"+name+
+                ", status:"+role.name()
+                +"}";
+    }
+
+    public static User createAdmin(String email, String name, String password) {
+        // create user
+        User admin = new User();
+        admin.email = email;
+        admin.name = name;
+        admin.password = password;
+        admin.role = UserRole.ADMIN;
+
+        // saving in DB
+        admin.save();
+        return admin;
+    }
+
 }

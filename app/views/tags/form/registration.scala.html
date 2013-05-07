@@ -6,7 +6,7 @@
 @implicitFieldConstructor = @{ FieldConstructor(twitterBootstrap.horizontalInput.render) }
 
 <h3>@Messages("web.user.sign_up")</h3>
-@helper.form(action = routes.Users.save(), 'class -> "form-horizontal", 'id -> "registrationForm") {
+@helper.form(action = routes.Users.create(), 'class -> "form-horizontal", 'id -> "registrationForm") {
     @helper.inputText(registrationForm("email"), 'type -> "email", '_showConstraints -> false, '_label -> Messages("web.form.email"))
     @helper.inputText(registrationForm("name"), '_showConstraints -> false, '_label -> Messages("web.form.name"))
     @helper.inputPassword(registrationForm("password"), '_showConstraints -> false, '_label -> Messages("web.form.password"))

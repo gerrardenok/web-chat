@@ -6,6 +6,7 @@ import play.data.Form;
 import play.mvc.*;
 
 import models.User;
+import models.ChatRoom;
 import data.UserDTO;
 import security.UserSecurityHelper;
 
@@ -61,7 +62,7 @@ public class Users extends Application{
         return redirect(routes.Application.index());
     }
 
-    public static Result save() {
+    public static Result create() {
         Form<UserDTO> userForm = Form.form(UserDTO.class).bindFromRequest();
 
         // form validation
@@ -77,10 +78,21 @@ public class Users extends Application{
             return badRequest();
         }
 
-        User user = new User(userDTO);
-        user.save();
-        Logger.info("Saving success: "+userForm.get());
+        User user = save(userDTO);
+
+        // Add to default Room
+        ChatRoom defaultRoom = ChatRoom.findDefaultRoom();
+        if(defaultRoom != null) {
+            user.joinToChatRoom(defaultRoom);
+        }
 
         return redirect(routes.Application.index());
+    }
+
+    protected static User save(UserDTO userDTO) {
+        User user = new User(userDTO);
+        user.save();
+        Logger.info("Saving success: "+userDTO);
+        return user;
     }
 }

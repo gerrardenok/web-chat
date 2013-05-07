@@ -1,3 +1,4 @@
+import models.User;
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
@@ -7,6 +8,10 @@ import play.mvc.Controller;
 import play.mvc.Http.RequestHeader;
 import java.util.TimeZone;
 
+import models.ChatRoom;
+import start.RootUserSettings;
+import play.Logger;
+
 
 public class Global extends GlobalSettings {
 
@@ -14,7 +19,19 @@ public class Global extends GlobalSettings {
     public void beforeStart(Application app) {}
 
     @Override
-    public void onStart(Application app) {}
+    public void onStart(Application app) {
+        // Create admin if not exist
+        if (User.findRoot() == null) {
+            User.createAdmin(RootUserSettings.EMAIL, RootUserSettings.NAME, RootUserSettings.PASSWORD);
+        }
+        // Create default room if not exist
+        if(ChatRoom.findDefaultRoom() == null) {
+            Logger.info("Create Default Room for all users");
+            ChatRoom.CreateDefaultRoom();
+        } else {
+            Logger.info("Default Room is already exist");
+        }
+    }
 
     @Override
     public play.mvc.Result onHandlerNotFound(RequestHeader requestHeader) {
@@ -30,5 +47,4 @@ public class Global extends GlobalSettings {
             return Controller.internalServerError(views.html.error.errorUnknown.render());
         }
     }
-
 }

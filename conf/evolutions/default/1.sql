@@ -6,6 +6,8 @@
 create table rooms (
   id                        bigint auto_increment not null,
   theme                     varchar(255) not null,
+  status                    integer not null,
+  constraint ck_rooms_status check (status in (0,1,2,3)),
   constraint pk_rooms primary key (id))
 ;
 
