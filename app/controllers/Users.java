@@ -1,12 +1,12 @@
 package controllers;
 
 import data.AuthUser;
-import org.apache.commons.lang3.StringUtils;
+import models.Room;
+import models.UserRoomRelationship;
 import play.data.Form;
 import play.mvc.*;
 
 import models.User;
-import models.ChatRoom;
 import data.UserDTO;
 import security.UserSecurityHelper;
 
@@ -35,8 +35,8 @@ public class Users extends Application{
 
         // form validation
         if(authorizationForm.hasErrors()) {
-            List<User> users_stub = new ArrayList<>();
-            return badRequest(views.html.pages.home.render(authorizationForm, users_stub));
+            List<UserRoomRelationship> relationships_stub = new ArrayList<>();
+            return badRequest(views.html.pages.home.render(authorizationForm, null, null));
         }
 
         AuthUser authUser = authorizationForm.get();
@@ -81,7 +81,7 @@ public class Users extends Application{
         User user = save(userDTO);
 
         // Add to default Room
-        ChatRoom defaultRoom = ChatRoom.findDefaultRoom();
+        Room defaultRoom = Room.findDefaultRoom();
         if(defaultRoom != null) {
             user.joinToChatRoom(defaultRoom);
         }

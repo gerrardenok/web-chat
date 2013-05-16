@@ -1,4 +1,4 @@
-@(loginForm: Form[data.AuthUser], users: List[models.User])
+@(loginForm: Form[data.AuthUser], sendMessageForm:Form[data.MessageDTO], relationships: List[models.UserRoomRelationship])
 
 @import security.UserSecurityHelper;
 @template_main(Messages("page.home.title")) {
@@ -8,13 +8,10 @@
                @tags.form.login(loginForm)
            </div>
        } else {
-            <div class="span8">
-                Home page
+            <div class="span12">
+                @tags.rooms.tabs(relationships)
             </div>
-           <div class="span4">
-               @tags.user.list(users)
-           </div>
+            @tags.form.send_message(sendMessageForm)
        }
-
     </div>
 }

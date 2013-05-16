@@ -1,0 +1,23 @@
+@(relationships:List[models.UserRoomRelationship])
+
+<section class="tabs">
+    <ul class="nav nav-tabs" id="roomTabs">
+        @for(relationship <- relationships) {
+            @tags.rooms.tab_header(relationship)
+        }
+    </ul>
+
+    <div class="tab-content">
+        @for(relationship <- relationships) {
+            @tags.rooms.tab(relationship)
+        }
+    </div>
+</section>
+
+@views.helper.collectJS {
+    <script type="text/javascript">
+        $(function () {
+            $('#roomTabs a:first').tab('show');
+        });
+    </script>
+}

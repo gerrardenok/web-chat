@@ -1,14 +1,14 @@
 package controllers;
 
-import play.*;
-import play.mvc.*;
+import data.MessageDTO;
 import models.User;
+import play.mvc.*;
+import models.Room;
+import models.UserRoomRelationship;
 import data.AuthUser;
 import play.data.Form;
 import actions.GlobalContextParams;
 import security.UserSecurityHelper;
-
-import views.html.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,15 +28,24 @@ public class Application extends Controller {
         // login form
         Form<AuthUser> loginForm = Form.form(AuthUser.class);
 
-        // List of users
-        List<User> users = new ArrayList<User>();
+        User user = GlobalContextParams.loggedUser();
+
+        // send message form
+        Form<MessageDTO> sendMessageForm = Form.form(MessageDTO.class);
+
+        // find rooms
+        List<UserRoomRelationship> relationships = new ArrayList<>();
 
         // security validation
-        if(UserSecurityHelper.isUserLogged()) {
-            users = User.find.all();
+        if(user != null) {
+            relationships = user.getRelationships();
+            // Fill form by default values:
+            // TODO find error on filling form, By the way user JS filling form in templates
+            MessageDTO messageDTO = new MessageDTO(user.email);
+            sendMessageForm.fill(messageDTO);
         }
 
-        return ok(views.html.pages.home.render(loginForm, users));
+        return ok(views.html.pages.home.render(loginForm, sendMessageForm, relationships));
     }
   
 }

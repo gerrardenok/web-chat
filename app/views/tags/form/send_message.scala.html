@@ -1,0 +1,51 @@
+@(messageForm:Form[data.MessageDTO])
+
+@import helper._
+@import system.Formatter
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrap.inlineInput.render) }
+@loggedUser = @{ actions.GlobalContextParams.loggedUser() }
+
+<section class="room-form">
+    @helper.form(action = routes.Rooms.sendMessage(), 'class -> "form-inline", 'id -> "sendMessageForm") {
+        @tags.form.input.hidden(messageForm("from"))
+        @tags.form.input.hidden(messageForm("to"))
+        @tags.form.input.hidden(messageForm("date"))
+        @helper.textarea(messageForm("message"), '_showConstraints -> false)
+        <input type="submit" value="@Messages("web.btn.send")" class="btn btn-primary span2">
+    }
+
+</section>
+
+@views.helper.collectJS {
+    <script src="@routes.Assets.at("javascripts/vendor/jquery.form.js")"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var $sendMessageForm = $("#sendMessageForm"),
+                $date = $("#date", $sendMessageForm),
+                $from = $("#from", $sendMessageForm),
+                $to = $("#to", $sendMessageForm),
+                $message = $("#message", $sendMessageForm);
+
+            $date.val(moment().format('@(Formatter.DATE_TIME_MOMENT_FORMATTER)'));
+            // Filling form
+            $from.val("@loggedUser.email");
+            $to.val(1);
+
+            // Ajax sending form
+            $sendMessageForm.on("submit", function(event) {
+                event.preventDefault();
+
+                // set current time
+                $date.val(moment().format('@(Formatter.DATE_TIME_MOMENT_FORMATTER)'));
+
+                // ajax send
+                $(this).ajaxSubmit({
+                    success: function(){
+                        alert("WORK");
+                    }
+                });
+            });
+        });
+    </script>
+}

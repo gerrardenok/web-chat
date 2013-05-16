@@ -1,16 +1,13 @@
+import models.Room;
 import models.User;
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
 import play.Play;
-import play.data.format.Formatters;
 import play.mvc.Controller;
 import play.mvc.Http.RequestHeader;
-import java.util.TimeZone;
 
-import models.ChatRoom;
 import start.RootUserSettings;
-import play.Logger;
 
 
 public class Global extends GlobalSettings {
@@ -25,9 +22,9 @@ public class Global extends GlobalSettings {
             User.createAdmin(RootUserSettings.EMAIL, RootUserSettings.NAME, RootUserSettings.PASSWORD);
         }
         // Create default room if not exist
-        if(ChatRoom.findDefaultRoom() == null) {
+        if(Room.findDefaultRoom() == null) {
             Logger.info("Create Default Room for all users");
-            ChatRoom.CreateDefaultRoom();
+            Room.CreateDefaultRoom();
         } else {
             Logger.info("Default Room is already exist");
         }

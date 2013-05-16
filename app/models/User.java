@@ -1,7 +1,6 @@
 package models;
 
 import play.Logger;
-import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import javax.persistence.*;
 
@@ -37,22 +36,18 @@ public class User extends Model {
     @Column(nullable = false)
     private UserRole role;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-    @JoinTable(name="user_room",
-            joinColumns={@JoinColumn(name="user_email", referencedColumnName="email")},
-            inverseJoinColumns={@JoinColumn(name="room_id", referencedColumnName="id")})
-    public List<ChatRoom> rooms = new ArrayList<>();
+    public List<UserRoomRelationship> relationships = new ArrayList<>();
 
-    /*Confusing moment*/
-    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-    @OrderBy("id")
-    public List<Message> messages;
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    @OneToMany(targetEntity = UserRoomRelationship.class, mappedBy = "user", cascade = CascadeType.ALL)
+    public List<UserRoomRelationship> getRelationships() {
+        return this.relationships;
+    }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     public User(){}
-
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     public User(String email, String name, String password) {
         this.email = email;
@@ -84,7 +79,7 @@ public class User extends Model {
     }
 
     public static List<User> findAdmins() {
-        return find.where().eq("role", UserRole.ADMIN).findList();
+        return find.where().eq("role", UserRole.SYSTEM_ADMIN).findList();
     }
 
     public static User findRoot() {
@@ -93,21 +88,58 @@ public class User extends Model {
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    public boolean isPasswordChecked(String password) {
-        return this.password.equals(password);
-    }
-
     public String getUserRole() {
         return role.name();
     }
 
+    public List<Room> getRooms() {
+        List<Room> rooms = new ArrayList<>();
+        for(UserRoomRelationship relationship : relationships) {
+            rooms.add(relationship.room);
+        }
+        return rooms;
+    }
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    public void joinToChatRoom(ChatRoom room) {
+
+    public boolean isPasswordChecked(String password) {
+        return this.password.equals(password);
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public void joinToChatRoom(Room room) {
+        // create new relationship
+        UserRoomRelationship relationship = new UserRoomRelationship(this, room);
         //User join to room
-        this.rooms.add(room);
+        this.getRelationships().add(relationship);
         this.update();
 
         Logger.info(String.format("%s join to room %s ", this, room));
+    }
+
+    public void sendMessage(Room to, String message) {
+        to.getMessages().add(new Message(message, this, to));
+        to.save();
+        Logger.info(String.format("%s send message to %s", this, to));
+    }
+
+    public void sendMessage(Room to, Message message) {
+        to.getMessages().add(message);
+        to.save();
+        Logger.info(String.format("%s send message to %s", this, to));
+    }
+
+    public static User createAdmin(String email, String name, String password) {
+        // create user
+        User admin = new User();
+        admin.email = email;
+        admin.name = name;
+        admin.password = password;
+        admin.role = UserRole.SYSTEM_ADMIN;
+
+        // saving in DB
+        admin.save();
+        return admin;
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -121,17 +153,5 @@ public class User extends Model {
                 +"}";
     }
 
-    public static User createAdmin(String email, String name, String password) {
-        // create user
-        User admin = new User();
-        admin.email = email;
-        admin.name = name;
-        admin.password = password;
-        admin.role = UserRole.ADMIN;
-
-        // saving in DB
-        admin.save();
-        return admin;
-    }
 
 }

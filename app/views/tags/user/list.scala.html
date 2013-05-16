@@ -1,11 +1,13 @@
-@(users: List[models.User])
+@(room: models.Room)
+
+@relationships = @{ room.getRelationships() }
 
 <table class="table table-hover">
 <caption>@Messages("users.list.caption")</caption>
-@for(user <- users){
+@for(relationship <- relationships){
     <tr>
-        <td>@user.name</td>
-        <td>@user.getUserRole()</td>
+        <td>@relationship.user.name</td>
+        <td>@relationship.getRole()</td>
     </tr>
 }
 </table>

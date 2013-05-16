@@ -6,6 +6,7 @@ web.form.password=password
 web.btn.login=login
 web.btn.logout=logout
 web.btn.register=Register
+web.btn.send=Send
 
 web.user.sign_out=Sign Out
 web.user.sign_in=Sign In

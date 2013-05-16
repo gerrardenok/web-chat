@@ -1,0 +1,12 @@
+@(relationship: models.UserRoomRelationship)
+
+@import system.ChatRoomStatus
+
+@room = @{relationship.room}
+
+<li>
+    <a href="#@(views.helper.getRoomIdForJS(room))" class="@if(room.getStatus.equals(ChatRoomStatus.DEFAULT)){ active }">@(room.getTheme)</a>
+    @if(room.getStatus != ChatRoomStatus.DEFAULT) {
+        <a href="#">[X]</a>
+    }
+</li>

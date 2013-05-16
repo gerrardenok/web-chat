@@ -1,0 +1,18 @@
+@(relationship: models.UserRoomRelationship)
+
+@import system.ChatRoomStatus
+
+@room = @{relationship.room}
+
+<div class="tab-pane @if(room.getStatus.equals(ChatRoomStatus.DEFAULT)){ active }" id="#@(views.helper.getRoomIdForJS(room))">
+    <div class="row">
+        <div class="span8">
+            @tags.rooms.tab_log(room.getMessages)
+        </div>
+        <div class="span4">
+            @tags.user.list(room)
+        </div>
+    </div>
+</div>
+
+
