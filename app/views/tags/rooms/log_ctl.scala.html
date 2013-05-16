@@ -1,0 +1,22 @@
+@()
+
+<section class="room-log-ctl">
+    <div class="btn-group" id="log-ctl-wrapp">
+        <a href="#" class="btn ctl-week">@Messages("room.log.week")</a>
+        <a href="#" class="btn ctl-month">@Messages("room.log.month")</a>
+        <a href="#" class="btn ctl-three-month">@Messages("room.log.three.month")</a>
+    </div>
+</section>
+
+@views.helper.collectJS {
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var $logCtlWrapp = $("#log-ctl-wrapp"),
+                $logCtlWeek = $(".ctl-week", $logCtlWrapp),
+                $logCtlMonth = $(".ctl-month", $logCtlWrapp),
+                $logCtlThreeMonth = $(".ctl-three-month", $logCtlWrapp),
+                toDate = moment().millisecond();
+
+        });
+    </script>
+}

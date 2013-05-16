@@ -61,6 +61,10 @@ public class Room extends Model {
         return find.where().eq("id", id).findUnique();
     }
 
+    public static boolean hasWithId(final Long id) {
+        return find.where().eq("id", id).findRowCount() > 0;
+    }
+
     public static Room findDefaultRoom() {
         return find.where().eq("status", ChatRoomStatus.DEFAULT).findUnique();
     }

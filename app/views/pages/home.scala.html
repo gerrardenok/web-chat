@@ -11,7 +11,11 @@
             <div class="span12">
                 @tags.rooms.tabs(relationships)
             </div>
-            @tags.form.send_message(sendMessageForm)
+            <div class="span12">
+                @tags.rooms.log_ctl()
+                <hr>
+                @tags.form.send_message(sendMessageForm)
+            </div>
        }
     </div>
 }

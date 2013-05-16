@@ -7,6 +7,7 @@ import play.db.ebean.Model;
 import system.Formatter;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -67,6 +68,10 @@ public class Message extends Model{
 
     public static Message findById(final Long id) {
         return find.where().eq("id", id).findUnique();
+    }
+
+    public static List<Message> findByRoomAndInterval(final Long id, DateTime from, DateTime to) {
+        return find.where().eq("room.id", id).between("send", from, to).findList();
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

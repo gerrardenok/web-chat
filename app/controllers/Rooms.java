@@ -1,5 +1,6 @@
 package controllers;
 
+import actions.GlobalContextParams;
 import data.MessageDTO;
 import models.Message;
 import models.Room;
@@ -15,6 +16,8 @@ import play.data.Form;
 import play.mvc.BodyParser;
 import play.mvc.Result;
 import system.Formatter;
+
+import java.util.List;
 
 /**
  * @author Mikhail Vatalev(m.vatalev@euroats.com)
@@ -51,4 +54,20 @@ public class Rooms extends Application {
         return ok();
     }
 
+    public static Result getMessages(Long id, Long from, Long to) {
+        User user = GlobalContextParams.loggedUser();
+        if (user == null) {
+            return forbidden();
+        }
+
+        if (Room.hasWithId(id)) {
+            return badRequest();
+        }
+
+        DateTime dttf = new DateTime(from);
+        DateTime dtto = new DateTime(to);
+
+        List<Message> messages = Message.findByRoomAndInterval(id, dttf, dtto);
+        return ok(toJson(messages));
+    }
 }

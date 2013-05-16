@@ -28,3 +28,7 @@ page.sign_up.title=Sign Up page
 login.registration.offer=If you haven''t account you may
 
 users.list.caption=Users list
+
+room.log.week=7 days
+room.log.month=1 month
+room.log.three.month=3 months
