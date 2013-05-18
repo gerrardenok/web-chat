@@ -8,6 +8,8 @@ import models.User;
 import org.codehaus.jackson.JsonNode;
 import static play.libs.Json.toJson;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.SerializationConfig;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.ISODateTimeFormat;
@@ -50,24 +52,30 @@ public class Rooms extends Application {
         room.getMessages().add(message);
         room.save();
 
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
+
         Logger.info(String.format("%s save in db", message));
-        return ok();
+        return ok(objectMapper.valueToTree(message));
     }
 
-    public static Result getMessages(Long id, Long from, Long to) {
+    public static Result getMessages(Long id, String from, String to) {
         User user = GlobalContextParams.loggedUser();
         if (user == null) {
             return forbidden();
         }
 
-        if (Room.hasWithId(id)) {
+        if (!Room.hasWithId(id)) {
             return badRequest();
         }
 
-        DateTime dttf = new DateTime(from);
-        DateTime dtto = new DateTime(to);
+        DateTime dttf = DateTime.parse(from, DateTimeFormat.forPattern(Formatter.DATE_TIME_JODA_FORMATTER));
+        DateTime dtto = DateTime.parse(to, DateTimeFormat.forPattern(Formatter.DATE_TIME_JODA_FORMATTER));
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
 
         List<Message> messages = Message.findByRoomAndInterval(id, dttf, dtto);
-        return ok(toJson(messages));
+        return ok(objectMapper.valueToTree(messages));
     }
 }

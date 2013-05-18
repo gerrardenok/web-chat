@@ -4,7 +4,7 @@
 
 @room = @{relationship.room}
 
-<div class="tab-pane @if(room.getStatus.equals(ChatRoomStatus.DEFAULT)){ active }" id="#@(views.helper.getRoomIdForJS(room))">
+<div class="tab-pane @if(room.getStatus.equals(ChatRoomStatus.DEFAULT)){ active }" id="#@(views.helper.getRoomIdForJS(room))" data-room-id="@room.getId">
     <div class="row">
         <div class="span8">
             @tags.rooms.tab_log(room.getMessages)

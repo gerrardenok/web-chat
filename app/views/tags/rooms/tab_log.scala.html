@@ -1,13 +1,15 @@
 @(messages:List[models.Message])
 
 <section class="room-message-log">
-    <div class="well well-large">
+    <div class="well well-large ">
         @for(message <- messages) {
-            <div class="message">
-                <span class="label label-success">@(message.getSender.name)</span>
-                <span class="label">@message.send.toString(views.helper.dateTimeFormatter)</span>
-                <span>@message.message</span>
-            </div>
+            @tags.rooms.message(message)
         }
     </div>
 </section>
+
+@views.helper.collectCSS {
+    <style>
+
+    </style>
+}

@@ -18,6 +18,7 @@ import org.joda.time.format.{DateTimeFormatter, DateTimeFormat}
 package object helper {
 
   val CollectedJSContextKey = "collectedJS"
+  val CollectedCSSContextKey = "collectedCSS"
   val dateTimeFormatter = DateTimeFormat.forPattern("dd.MM.YYYY hh:mm")
 
   /**
@@ -31,6 +32,15 @@ package object helper {
 
   def collectedJS(): Html = {
     Http.Context.current().args.get(CollectedJSContextKey).asInstanceOf[Html]
+  }
+
+  def collectCSS(script:Html) {
+    val collected = Option(Http.Context.current().args.get(CollectedCSSContextKey).asInstanceOf[Html]) getOrElse Html("")
+    play.mvc.Http.Context.current().args.put(CollectedCSSContextKey, script += collected)
+  }
+
+  def collectedCSS(): Html = {
+    Http.Context.current().args.get(CollectedCSSContextKey).asInstanceOf[Html]
   }
 
   def getRoomIdForJS(room: Room):String = {

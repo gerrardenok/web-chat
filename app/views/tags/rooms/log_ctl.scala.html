@@ -1,10 +1,13 @@
 @()
 
+@import system.Formatter
+
 <section class="room-log-ctl">
     <div class="btn-group" id="log-ctl-wrapp">
-        <a href="#" class="btn ctl-week">@Messages("room.log.week")</a>
-        <a href="#" class="btn ctl-month">@Messages("room.log.month")</a>
-        <a href="#" class="btn ctl-three-month">@Messages("room.log.three.month")</a>
+        <button class="btn ctl-day">@Messages("room.log.day")</button>
+        <button class="btn ctl-week">@Messages("room.log.week")</button>
+        <button class="btn ctl-month">@Messages("room.log.month")</button>
+        <button class="btn ctl-three-month">@Messages("room.log.three.month")</button>
     </div>
 </section>
 
@@ -12,11 +15,34 @@
     <script type="text/javascript">
         $(document).ready(function(){
             var $logCtlWrapp = $("#log-ctl-wrapp"),
+                $logCtlDay = $(".ctl-day", $logCtlWrapp),
                 $logCtlWeek = $(".ctl-week", $logCtlWrapp),
                 $logCtlMonth = $(".ctl-month", $logCtlWrapp),
-                $logCtlThreeMonth = $(".ctl-three-month", $logCtlWrapp),
-                toDate = moment().millisecond();
+                $logCtlThreeMonth = $(".ctl-three-month", $logCtlWrapp);
 
+            $(".btn", $logCtlWrapp).click(function() {
+                var to = moment().format('@(Formatter.DATE_TIME_MOMENT_FORMATTER)'),
+                    from;
+                if($(this).is($logCtlDay)) {
+                    from = moment().subtract('days', 1).format('@(Formatter.DATE_TIME_MOMENT_FORMATTER)');
+                } else if($(this).is($logCtlWeek)) {
+                    from = moment().subtract('days', 7).format('@(Formatter.DATE_TIME_MOMENT_FORMATTER)');
+                } else if($(this).is($logCtlMonth)) {
+                    from = moment().subtract('months', 1).format('@(Formatter.DATE_TIME_MOMENT_FORMATTER)');
+                } else if($(this).is($logCtlThreeMonth)) {
+                    from = moment().subtract('months', 3).format('@(Formatter.DATE_TIME_MOMENT_FORMATTER)');
+                }
+                var room_id = $currantTab.closest(".tab-pane").attr("data-room-id");
+                jsRoutes.controllers.Rooms.getMessages(room_id, from, to).ajax({
+                    success : function(data) {
+                        console.log("Messages:"+data)
+                        logRendering($currantTab, data)
+                    },
+                    error : function(err) {
+                        console.log("Error:"+err)
+                    }
+                });
+            });
         });
     </script>
 }

@@ -1,0 +1,31 @@
+@()
+
+@import system.Formatter
+
+<script type="text/javascript">
+var $msgWrap = $($.parseHTML('@Html(tags.rooms.message(null).toString().replace("\n", "").replace("\r", ""))'));
+
+function messageRender(data){
+    var $clone = $msgWrap.clone();
+    // fill by values
+    $($clone).children(".sender-name").text(data.user_name);
+    $($clone).children(".sending-date").text(data.send);
+    $($clone).children(".send-message").text(data.message);
+    return $clone;
+}
+
+function AddToLog($log, data){
+    var $msg = $(messageRender(data));
+    // add to log element
+    $log.append($msg);
+}
+// Message rendering
+function logRendering($log, data) {
+    // clear log
+    $log.empty();
+    $.each(data, function(){
+        // create a clone
+        AddToLog($log, this);
+    });
+}
+</script>

@@ -1,0 +1,15 @@
+@(message:models.Message)
+
+@loggedUser = @{actions.GlobalContextParams.loggedUser()}
+@userNameColor = @{
+    if((message != null) && message.getSender().equals(loggedUser)){
+        "label-success"
+    }else{
+        "label-info"
+    }
+}
+<div class="message-wrapper">
+    <span class="label @userNameColor sender-name">@if(message != null){@message.getSender.name}</span>
+    <span class="label sending-date pull-right">@if(message != null){@message.send.toString(system.Formatter.DATE_TIME_JODA_FORMATTER)}</span>
+    <span class="send-message">@if(message != null){@message.message}</span>
+</div>

@@ -11,8 +11,15 @@
         @tags.form.input.hidden(messageForm("from"))
         @tags.form.input.hidden(messageForm("to"))
         @tags.form.input.hidden(messageForm("date"))
-        @helper.textarea(messageForm("message"), '_showConstraints -> false)
-        <input type="submit" value="@Messages("web.btn.send")" class="btn btn-primary span2">
+
+        <div class="row">
+            <div class="span8">
+                @helper.textarea(messageForm("message"), '_showConstraints -> false)
+            </div>
+            <div class="span4">
+                <input type="submit" value="@Messages("web.btn.send")" class="btn btn-inverse">
+            </div>
+        </div>
     }
 
 </section>
@@ -41,8 +48,12 @@
 
                 // ajax send
                 $(this).ajaxSubmit({
-                    success: function(){
-                        alert("WORK");
+                    success: function(data){
+                        console.log(data)
+                        AddToLog($currantTab, data)
+                    },
+                    error: function(){
+                        console.log("Error: on sending message")
                     }
                 });
             });

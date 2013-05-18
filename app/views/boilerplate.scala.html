@@ -13,9 +13,13 @@
         <meta name="viewport" content="width=device-width">
 
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-        <link rel="stylesheet" href="@routes.Assets.at("stylesheets/bootstrap/bootstrap.css")">
+        <link rel="stylesheet" href="@routes.Assets.at("stylesheets/main.css")">
 
-        <script src="@routes.Assets.at("javascripts/html5shiv.js")"></script>
+        @views.helper.collectedCSS()
+
+        @views.html.tags.jsroutes()
+
+        <script src="@routes.Assets.at("javascripts/vendor/html5shiv.js")"></script>
 
     </head>
     <body>
@@ -25,9 +29,11 @@
 
         @content
 
-        <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")"></script>
-        <script src="@routes.Assets.at("javascripts/bootstrap.min.js")"></script>
+        <script src="@routes.Assets.at("javascripts/vendor/jquery-1.9.0.min.js")"></script>
+        <script src="@routes.Assets.at("javascripts/vendor/bootstrap.min.js")"></script>
         <script src="@routes.Assets.at("javascripts/vendor/moment-2.0.0.min.js")"></script>
+        <script src="@routes.Assets.at("javascripts/tabs.js")"></script>
+        @tags.js_main_func()
 
         @views.helper.collectedJS()
 

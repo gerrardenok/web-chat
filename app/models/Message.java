@@ -1,6 +1,8 @@
 package models;
 
 import data.MessageDTO;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import play.db.ebean.Model;
@@ -29,9 +31,11 @@ public class Message extends Model{
     @Column(nullable = false)
     public String message;
 
+    @JsonIgnore
     @Column(nullable = false)
     Room room;
 
+    @JsonIgnore
     @ManyToOne(fetch=FetchType.LAZY)
     User from;
 
@@ -40,6 +44,7 @@ public class Message extends Model{
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="room_id")
     public Room getRoom() {
@@ -75,10 +80,25 @@ public class Message extends Model{
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    @JsonIgnore
     public User getSender() {
         return from;
     }
 
+    @JsonProperty("user_name")
+    public String getUserName() {
+        return this.from.name;
+    }
+
+    @JsonProperty("user_email")
+    public String getUserEmail() {
+        return this.from.email;
+    }
+
+    @JsonProperty("room_id")
+    public Long getRoomId() {
+        return this.room.getId();
+    }
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public String toString() {
         return String.format("Message{form: %s, to: %s, message: %s, date: %s}", this.from.email, this.room.getId(), this.message, this.send.toString());
