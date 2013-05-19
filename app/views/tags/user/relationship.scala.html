@@ -1,0 +1,14 @@
+@(relationship: models.UserRoomRelationship)
+
+@import system.UserRoomRole;
+
+@loggerUser = @{actions.GlobalContextParams.loggedUser()}
+@userColor = @{
+    if(relationship != null && relationship.getRole().equals(UserRoomRole.ADMIN)) {"info"}
+    if((relationship != null) && (loggerUser!=null) && (relationship.user == loggerUser)) {"success"}
+}
+
+<tr class="user-row @userColor">
+    <td class="user-name">@if(relationship != null){@relationship.user.name }</td>
+    <td class="user-status">@if(relationship != null){@relationship.getRole()}</td>
+</tr>

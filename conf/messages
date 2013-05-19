@@ -33,3 +33,5 @@ room.log.day=Day
 room.log.week=7 days
 room.log.month=1 month
 room.log.three.month=3 months
+
+room.bar.admin.link=Room Admin Panel

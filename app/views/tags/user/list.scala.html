@@ -1,17 +1,22 @@
 @(room: models.Room)
 
 @import models.UserRoomRelationship;
-@import system.UserRoomRole;
 
 @relationships = @{ room.getRelationships() }
 
 <div class="users-list">
     <table class="table table-hover">
     @for(relationship <- relationships){
-        <tr @if(relationship.getRole().equals(UserRoomRole.ADMIN)){ class="info" }>
-            <td>@relationship.user.name</td>
-            <td>@relationship.getRole()</td>
-        </tr>
+        @tags.user.relationship(relationship)
     }
     </table>
 </div>
+
+@* test script remove/upgrade*@
+@views.helper.collectJS {
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(document).trigger("tab.users.list.load");
+    });
+</script>
+}

@@ -1,7 +1,9 @@
 @(relationship: models.UserRoomRelationship)
+@import system.UserRoomRole
 
 @import system.ChatRoomStatus
 
+@loggedUser = @{actions.GlobalContextParams.loggedUser()}
 @room = @{relationship.room}
 
 <div class="tab-pane @if(room.getStatus.equals(ChatRoomStatus.DEFAULT)){ active }" id="#@(views.helper.getRoomIdForJS(room))" data-room-id="@room.getId">
@@ -10,6 +12,9 @@
             @tags.rooms.tab_log(room.getMessages)
         </div>
         <div class="span4">
+            @if((relationship.user == loggedUser) && relationship.getRole().equals(UserRoomRole.ADMIN)) {
+                @tags.rooms.admin_bar_ctl(room)
+            }
             @tags.user.list(room)
         </div>
     </div>

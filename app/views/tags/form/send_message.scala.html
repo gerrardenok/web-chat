@@ -34,7 +34,7 @@
                 $to = $("#to", $sendMessageForm),
                 $message = $("#message", $sendMessageForm);
 
-            $date.val(moment().format('@(Formatter.DATE_TIME_MOMENT_FORMATTER)'));
+            $date.val(moment().utc().valueOf());
             // Filling form
             $from.val("@loggedUser.email");
             $to.val(1);
@@ -44,13 +44,12 @@
                 event.preventDefault();
 
                 // set current time
-                $date.val(moment().format('@(Formatter.DATE_TIME_MOMENT_FORMATTER)'));
+                $date.val(moment().utc().valueOf());
 
                 // ajax send
                 $(this).ajaxSubmit({
                     success: function(data){
-                        console.log(data)
-                        AddToLog($currantTab, data)
+                        AddToLog($currentLog, data)
                     },
                     error: function(){
                         console.log("Error: on sending message")

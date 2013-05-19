@@ -2,15 +2,18 @@ package controllers;
 
 import actions.GlobalContextParams;
 import data.MessageDTO;
+import data.UserRelationshipDTO;
 import models.Message;
 import models.Room;
 import models.User;
+import models.UserRoomRelationship;
 import org.codehaus.jackson.JsonNode;
 import static play.libs.Json.toJson;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.ISODateTimeFormat;
 import play.Logger;
@@ -19,6 +22,7 @@ import play.mvc.BodyParser;
 import play.mvc.Result;
 import system.Formatter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,7 +63,7 @@ public class Rooms extends Application {
         return ok(objectMapper.valueToTree(message));
     }
 
-    public static Result getMessages(Long id, String from, String to) {
+    public static Result getMessages(Long id, Long from, Long to) {
         User user = GlobalContextParams.loggedUser();
         if (user == null) {
             return forbidden();
@@ -69,13 +73,41 @@ public class Rooms extends Application {
             return badRequest();
         }
 
-        DateTime dttf = DateTime.parse(from, DateTimeFormat.forPattern(Formatter.DATE_TIME_JODA_FORMATTER));
-        DateTime dtto = DateTime.parse(to, DateTimeFormat.forPattern(Formatter.DATE_TIME_JODA_FORMATTER));
+        DateTime dttf = new DateTime(from);
+        DateTime dtto = new DateTime(to);
 
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
 
         List<Message> messages = Message.findByRoomAndInterval(id, dttf, dtto);
         return ok(objectMapper.valueToTree(messages));
+    }
+
+    public static Result getUsers(Long room_id) {
+        User user = GlobalContextParams.loggedUser();
+        if (user == null) {
+            return forbidden();
+        }
+        Room room = Room.findById(room_id);
+        if (room == null) {
+            return badRequest();
+        }
+        List<UserRelationshipDTO> result = new ArrayList<>();
+        for(UserRoomRelationship relationship: room.getRelationships()) {
+            result.add(new UserRelationshipDTO(relationship));
+        }
+        return ok(toJson(result));
+    }
+
+    public static Result adminPanel(Long id) {
+        User user = GlobalContextParams.loggedUser();
+        if (user == null) {
+            return forbidden();
+        }
+        Room room = Room.findById(id);
+        if (room == null) {
+            return badRequest();
+        }
+        return ok();
     }
 }

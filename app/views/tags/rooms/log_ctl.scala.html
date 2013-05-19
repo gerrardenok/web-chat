@@ -21,22 +21,22 @@
                 $logCtlThreeMonth = $(".ctl-three-month", $logCtlWrapp);
 
             $(".btn", $logCtlWrapp).click(function() {
-                var to = moment().format('@(Formatter.DATE_TIME_MOMENT_FORMATTER)'),
+                var to = moment().utc().valueOf(),
                     from;
                 if($(this).is($logCtlDay)) {
-                    from = moment().subtract('days', 1).format('@(Formatter.DATE_TIME_MOMENT_FORMATTER)');
+                    from = moment().utc().subtract('days', 1).valueOf();
                 } else if($(this).is($logCtlWeek)) {
-                    from = moment().subtract('days', 7).format('@(Formatter.DATE_TIME_MOMENT_FORMATTER)');
+                    from = moment().utc().subtract('days', 7).valueOf();
                 } else if($(this).is($logCtlMonth)) {
-                    from = moment().subtract('months', 1).format('@(Formatter.DATE_TIME_MOMENT_FORMATTER)');
+                    from = moment().utc().subtract('months', 1).valueOf();
                 } else if($(this).is($logCtlThreeMonth)) {
-                    from = moment().subtract('months', 3).format('@(Formatter.DATE_TIME_MOMENT_FORMATTER)');
+                    from = moment().utc().subtract('months', 3).valueOf();
                 }
-                var room_id = $currantTab.closest(".tab-pane").attr("data-room-id");
+                var room_id = $currentLog.closest(".tab-pane").attr("data-room-id");
                 jsRoutes.controllers.Rooms.getMessages(room_id, from, to).ajax({
                     success : function(data) {
                         console.log("Messages:"+data)
-                        logRendering($currantTab, data)
+                        logRendering($currentLog, data)
                     },
                     error : function(err) {
                         console.log("Error:"+err)

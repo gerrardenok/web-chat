@@ -1,5 +1,6 @@
 import models.Room;
 import models.User;
+import org.joda.time.DateTimeZone;
 import play.Application;
 import play.GlobalSettings;
 import play.Logger;
@@ -17,6 +18,9 @@ public class Global extends GlobalSettings {
 
     @Override
     public void onStart(Application app) {
+        // set default server timezone
+        DateTimeZone.setDefault(DateTimeZone.UTC);
+
         // Create admin if not exist
         if (User.findRoot() == null) {
             User.createAdmin(RootUserSettings.EMAIL, RootUserSettings.NAME, RootUserSettings.PASSWORD);

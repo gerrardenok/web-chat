@@ -6,14 +6,17 @@
     <div class="navbar-inner">
         <a class="brand" href="@routes.Application.index()">@Messages("project.name")</a>
         <ul class="nav">
-            <li class="active"><a href="#">@Messages("page.header.links.home")</a></li>
+            <li class="active"><a href="@routes.Application.index()">@Messages("page.header.links.home")</a></li>
             @if(UserSecurityHelper.isUserLogged()){
+                @* TODO profile page
                 <li><a href="#">@Messages("page.header.links.profile")</a></li>
-                <li><a href="#">@Messages("page.header.links.rooms")</a></li>
+                *@
                 @if(UserSecurityHelper.isUserLogged()){
                     <li><a href="@routes.Users.signOut()">@Messages("web.btn.logout")</a></li>
                 }
             }
+            @* ================ *@
+            @tags.lang_bar()
         </ul>
     </div>
 </div>

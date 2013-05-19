@@ -1,11 +1,14 @@
+
 @(message:models.Message)
 
 @loggedUser = @{actions.GlobalContextParams.loggedUser()}
 @userNameColor = @{
-    if((message != null) && message.getSender().equals(loggedUser)){
-        "label-success"
-    }else{
-        "label-info"
+    if(message != null){
+        if(message.getSender().equals(loggedUser)){
+            "label-success"
+        }else{
+            "label-info"
+        }
     }
 }
 <div class="message-wrapper">

@@ -1,0 +1,11 @@
+@()
+
+@import play.api._
+@import play.api.i18n._
+@import play.mvc.Http._
+
+<div class="pull-left lang-chooser-box">
+@for(lang <- Lang.availables(Play.current)) {
+    <a href="@routes.Public.changeLanguage(lang.code)" class="@lang.code @if(lang.code == Http.Context.current().lang().code){active}" title="@Messages("dict.lang." + lang.code)" >@Messages("dict.lang." + lang.code)</a>
+}
+</div>

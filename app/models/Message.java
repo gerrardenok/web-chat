@@ -24,6 +24,7 @@ import java.util.List;
 @Table(name = "messages")
 public class Message extends Model{
 
+    @JsonIgnore
     @Id
     @GeneratedValue
     Long id;
@@ -39,6 +40,7 @@ public class Message extends Model{
     @ManyToOne(fetch=FetchType.LAZY)
     User from;
 
+    @JsonIgnore
     @Column(nullable = false)
     public DateTime send;
 
@@ -60,11 +62,11 @@ public class Message extends Model{
         this.send = DateTime.now();
     }
 
-    public Message(User from, Room to, String message, String send) {
+    public Message(User from, Room to, String message, Long send) {
         this.from = from;
         this.room = to;
         this.message = message;
-        this.send = DateTime.parse(send, DateTimeFormat.forPattern(Formatter.DATE_TIME_JODA_FORMATTER));
+        this.send = new DateTime(send);
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -80,25 +82,42 @@ public class Message extends Model{
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // ~~~~~    JSON FORMAT  ~~~~~~~~
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     @JsonIgnore
     public User getSender() {
         return from;
     }
 
-    @JsonProperty("user_name")
+    @JsonProperty("userName")
     public String getUserName() {
         return this.from.name;
     }
 
-    @JsonProperty("user_email")
+    /*
+    @JsonProperty("userEmail")
     public String getUserEmail() {
         return this.from.email;
     }
 
-    @JsonProperty("room_id")
+    @JsonProperty("roomId")
     public Long getRoomId() {
         return this.room.getId();
     }
+    */
+
+    @JsonProperty("dateLong")
+    public Long getDateTime() {
+        return this.send.getMillis();
+    }
+
+    @JsonProperty("isMyMessage")
+    public boolean isLoggedUserOwner() {
+        User loggedUser = actions.GlobalContextParams.loggedUser();
+        return (loggedUser != null) && (this.from.equals(loggedUser));
+    }
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public String toString() {
         return String.format("Message{form: %s, to: %s, message: %s, date: %s}", this.from.email, this.room.getId(), this.message, this.send.toString());

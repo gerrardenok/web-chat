@@ -15,11 +15,11 @@ public class MessageDTO {
     public String message;
 
     @Constraints.Required
-    public String date;
+    public Long date;
 
     public MessageDTO(){};
 
-    public MessageDTO(String from, Long to, String message, String date) {
+    public MessageDTO(String from, Long to, String message, Long date) {
         this.from = from;
         this.to = to;
         this.message = message;
@@ -34,7 +34,7 @@ public class MessageDTO {
     public MessageDTO(String from) {
         this.from = from;
         this.to = Room.findDefaultRoom().getId();
-        this.date = DateTime.now().toString();
+        this.date = DateTime.now().getMillis();
         this.message="";
     }
 

@@ -4,13 +4,33 @@
 
 <script type="text/javascript">
 var $msgWrap = $($.parseHTML('@Html(tags.rooms.message(null).toString().replace("\n", "").replace("\r", ""))'));
+var $userWrap = $($.parseHTML('@Html(tags.user.relationship(null).toString().replace("\n", "").replace("\r", ""))'));
 
 function messageRender(data){
     var $clone = $msgWrap.clone();
     // fill by values
-    $($clone).children(".sender-name").text(data.user_name);
-    $($clone).children(".sending-date").text(data.send);
+    $($clone).children(".sender-name").text(data.userName);
+    $($clone).children(".sending-date").text(moment(data.dateLong).local().format('@Formatter.DATE_TIME_MOMENT_FORMATTER'));
     $($clone).children(".send-message").text(data.message);
+    // fill by color
+    $($clone).children(".sender-name").addClass((data.isMyMessage) ? "label-success" : "label-info");
+    return $clone;
+}
+
+function userRender(data){
+    var $clone = $userWrap.clone();
+    // fill by values
+    $($clone).children(".user-name").text(data.userName);
+    $($clone).children(".user-status").text(data.role);
+    // fill by color
+    var css_class="";
+    if(data.isAdmin) {
+        css_class="info"
+    }
+    if(data.isMyUser){
+       css_class="success"
+    }
+    $($clone).addClass(css_class);
     return $clone;
 }
 
@@ -19,13 +39,25 @@ function AddToLog($log, data){
     // add to log element
     $log.append($msg);
 }
-// Message rendering
+
+function AddToUsersList($list, data){
+    var $user = $(userRender(data));
+    $list.append($user);
+}
+
 function logRendering($log, data) {
     // clear log
     $log.empty();
     $.each(data, function(){
         // create a clone
         AddToLog($log, this);
+    });
+}
+
+function userListRendering($list, data) {
+    $list.empty();
+    $.each(data, function(){
+        AddToUsersList($list, this);
     });
 }
 </script>

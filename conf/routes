@@ -4,6 +4,7 @@
 
 # Home page
 GET     /                           controllers.Application.index()
+GET     /lang/:code                 controllers.Public.changeLanguage(code: String)
 
 # Registration/Authorization
 GET     /sign_up                    controllers.Users.signUp()
@@ -15,7 +16,11 @@ POST    /user/create                controllers.Users.create()
 # Chat rooms
 POST    /room/send_message          controllers.Rooms.sendMessage()
 
-GET     /room/messages/list         controllers.Rooms.getMessages(id: Long, from: String, to: String)
+GET     /room/messages/list         controllers.Rooms.getMessages(id: Long, from: Long, to: Long)
+GET     /room/:id/user/list         controllers.Rooms.getUsers(id: Long)
+
+# Admin panel
+GET     /room/:id/admin_panel       controllers.Rooms.adminPanel(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
