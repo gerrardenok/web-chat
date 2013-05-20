@@ -6,6 +6,8 @@
 GET     /                           controllers.Application.index()
 GET     /lang/:code                 controllers.Public.changeLanguage(code: String)
 
+GET     /features                   controllers.Application.features()
+
 # Registration/Authorization
 GET     /sign_up                    controllers.Users.signUp()
 POST    /sign_in                    controllers.Users.signIn()

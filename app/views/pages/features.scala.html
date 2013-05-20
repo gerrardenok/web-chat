@@ -1,0 +1,17 @@
+@()
+
+@implicitActiveNaviItem = @{ routes.Application.features().url }
+
+@template_main(Messages("page.features.title")) {
+    <div class="offset3">
+        <h3>@Messages("page.features.title")</h3>
+        <ul>
+           <li>@Messages("features.list.item.1")</li>
+           <li>@Messages("features.list.item.2")</li>
+           <li>@Messages("features.list.item.3")</li>
+           <li>@Messages("features.list.item.4")</li>
+           <li>@Messages("features.list.item.5")</li>
+           <li>@Messages("features.list.item.6")</li>
+       </ul>
+    </div>
+}

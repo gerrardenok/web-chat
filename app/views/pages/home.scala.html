@@ -1,6 +1,8 @@
 @(loginForm: Form[data.AuthUser], sendMessageForm:Form[data.MessageDTO], relationships: List[models.UserRoomRelationship])
 
 @import security.UserSecurityHelper;
+@implicitActiveNaviItem = @{ routes.Application.index().url }
+
 @template_main(Messages("page.home.title")) {
     <div class="row">
        @if(!UserSecurityHelper.isUserLogged()) {

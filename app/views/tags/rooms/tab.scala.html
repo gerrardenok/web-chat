@@ -12,9 +12,12 @@
             @tags.rooms.tab_log(room.getMessages)
         </div>
         <div class="span4">
+            @* TODO Create admin panel*@
+            @*
             @if((relationship.user == loggedUser) && relationship.getRole().equals(UserRoomRole.ADMIN)) {
                 @tags.rooms.admin_bar_ctl(room)
             }
+            *@
             @tags.user.list(room)
         </div>
     </div>

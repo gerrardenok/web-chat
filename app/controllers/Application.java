@@ -47,5 +47,9 @@ public class Application extends Controller {
 
         return ok(views.html.pages.home.render(loginForm, sendMessageForm, relationships));
     }
+
+    public static Result features() {
+        return ok(views.html.pages.features.render());
+    }
   
 }

@@ -12,13 +12,12 @@ import play.mvc.With;
  * </p>
  *
  */
-@With({GlobalContextParams.class})
-public class Public extends Controller {
+
+public class Public extends Application {
 
     public static Result changeLanguage(String code) {
         changeLang(code);
         User loggerUser = GlobalContextParams.loggedUser();
         return redirect(routes.Application.index());
     }
-
 }

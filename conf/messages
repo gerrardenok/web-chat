@@ -23,6 +23,7 @@ page.header.links.rooms=Rooms
 # Page titles
 page.home.title=Home page
 page.sign_up.title=Sign Up page
+page.features.title=TODO list
 
 #login form
 login.registration.offer=If you haven''t account you may
@@ -35,3 +36,14 @@ room.log.month=1 month
 room.log.three.month=3 months
 
 room.bar.admin.link=Room Admin Panel
+
+dict.lang.en=English
+dict.lang.ru=Russian
+
+features.list.item.1=Room Admin model
+features.list.item.2=System Admin model
+features.list.item.3=Room Admin panel
+features.list.item.4=System Admin panel
+features.list.item.5=File upload (probably)
+features.list.item.6=Many rooms
+
