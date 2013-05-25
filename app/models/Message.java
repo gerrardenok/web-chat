@@ -14,10 +14,11 @@ import java.util.List;
 
 /**
  * <p>
- * Represents the message entity.
+ * Представляет сущность Сообщения которая храниться в базе данных.
  * </p>
  *
  * @author Mikhail Vatalev(m.vatalev@euroats.com)
+ * @version 1.0
  */
 
 @Entity
@@ -73,10 +74,24 @@ public class Message extends Model{
 
     public static final Finder<Long, Message> find = new Finder<Long, Message>(Long.class, Message.class);
 
+    /**
+     * Метод реализует поиск сообщения в базе по уникальному ключу
+     * @param id уникальный индификатор сообщения
+     * @return Объект сообщения
+     * @version 1.0
+     */
     public static Message findById(final Long id) {
         return find.where().eq("id", id).findUnique();
     }
 
+    /**
+     * Метод реализует поиск сообщения в базе по унальному ключу комнаты и интервалу времени (отправки) сообщений
+     * @param id уникальный индификатор сообщения
+     * @param from Дата начала интрвала
+     * @param to Дата конца интервала
+     * @return Объект сообщения
+     * @version 1.0
+     */
     public static List<Message> findByRoomAndInterval(final Long id, DateTime from, DateTime to) {
         return find.where().eq("room.id", id).between("send", from, to).findList();
     }
@@ -94,18 +109,6 @@ public class Message extends Model{
     public String getUserName() {
         return this.from.name;
     }
-
-    /*
-    @JsonProperty("userEmail")
-    public String getUserEmail() {
-        return this.from.email;
-    }
-
-    @JsonProperty("roomId")
-    public Long getRoomId() {
-        return this.room.getId();
-    }
-    */
 
     @JsonProperty("dateLong")
     public Long getDateTime() {

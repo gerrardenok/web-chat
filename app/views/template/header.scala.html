@@ -12,9 +12,9 @@
                 @* TODO profile page
                 <li><a href="#">@Messages("page.header.links.profile")</a></li>
                 *@
-                @if(UserSecurityHelper.isUserLogged()){
-                    <li><a href="@routes.Users.signOut()">@Messages("web.btn.logout")</a></li>
-                }
+                <li><a href="@routes.Application.documentation()">@Messages("page.documentation.title")</a></li>
+                <li><a href="@routes.Users.signOut()">@Messages("web.btn.logout")</a></li>
+
             }
         </ul>
         @*----------------*@

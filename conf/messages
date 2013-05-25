@@ -24,6 +24,9 @@ page.header.links.rooms=Rooms
 page.home.title=Home page
 page.sign_up.title=Sign Up page
 page.features.title=TODO list
+page.error.404=Page not found
+page.error.unknow=Unknow error
+page.documentation.title=Browse API
 
 #login form
 login.registration.offer=If you haven''t account you may

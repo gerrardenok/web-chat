@@ -12,10 +12,11 @@ import java.util.List;
 
 /**
  * <p>
- * Represents the relationship between user and the chat room entity.
+ * Представляет сущность Связи смежду пользователем и комнатой которая храниться в базе данных.
  * </p>
  *
  * @author Mikhail Vatalev(m.vatalev@euroats.com)
+ * @version 1.0
  */
 @Entity
 @Table(name = "user_room_relationship")
@@ -57,14 +58,22 @@ public class UserRoomRelationship extends Model {
 
     public static final Finder<String, UserRoomRelationship> find = new Finder<String, UserRoomRelationship>(String.class, UserRoomRelationship.class);
 
-    public static List<UserRoomRelationship> findByEmail(final String email) {
-        return find.where().eq("user.email", email).findList();
-    }
-
+    /**
+     * Метод реализует поиск связей в базе по уникальному ключу команты
+     * @param roomId уникальный индификатор комнаты
+     * @return Коллекция связей
+     * @version 1.0
+     */
     public static List<UserRoomRelationship> findByRoomId(final Long roomId) {
         return find.where().eq("room.id", roomId).findList();
     }
 
+    /**
+     * Метод реализует поиск связей админстарторов в базе по уникальному ключу команты
+     * @param roomId уникальный индификатор комнаты
+     * @return Коллекция связей
+     * @version 1.0
+     */
     public static List<UserRoomRelationship> findAdminsByRoomId(final Long roomId) {
         return find.where().eq("room.id", roomId).eq("role", UserRoomRole.ADMIN).findList();
     }
@@ -81,6 +90,11 @@ public class UserRoomRelationship extends Model {
 
     // ~~~~~~~~~~~~~~~~~~~~~~~
 
+    /**
+     * Метод реализует повышение статуса рядового пользоваетля в комнате до администатора {@link system.UserRoomRole}
+     * @param relationship связь для которой будет повышен статус
+     * @version 2.0
+     */
     public static void increaseToAdmin(UserRoomRelationship relationship) {
         relationship.role=UserRoomRole.ADMIN;
         relationship.update();

@@ -10,14 +10,17 @@ import start.RootUserSettings;
 import java.util.ArrayList;
 import java.util.List;
 
+import play.libs.Crypto;
+
 import data.UserDTO;
 
 /**
  * <p>
- * Represents the User entity.
+ * Представляет сущность Пользователя которая храниться в базе данных.
  * </p>
  *
  * @author Mikhail Vatalev(m.vatalev@euroats.com)
+ * @version 1.0
  */
 
 @Entity
@@ -52,7 +55,7 @@ public class User extends Model {
     public User(String email, String name, String password) {
         this.email = email;
         this.name = name;
-        this.password = password;
+        this.password = Crypto.encryptAES(password);
         this.role = UserRole.USER;
     }
 
@@ -70,18 +73,42 @@ public class User extends Model {
 
     public static final Finder<String, User> find = new Finder<String, User>(String.class, User.class);
 
+    /**
+     * Метод реализует поиск пользователя в базе по уникальному ключу
+     * @param email уникальный индификатор пользователя
+     * @return Пользователь
+     * @version 1.0
+     */
     public static User findByEmail(final String email) {
         return find.where().eq("email", email).findUnique();
     }
 
+    /**
+     * Метод реализует поиск пользователя в базе по уникальному ключу и паролю
+     * @param email уникальный индификатор пользователя
+     * @param password пароль пользователя
+     * @return Объект комнаты
+     * @version 1.0
+     */
     public static User findByEmailAndPassword(final String email, final String password) {
-        return find.where().eq("email", email).eq("password", password).findUnique();
+        String pass = Crypto.encryptAES(password);
+        return find.where().eq("email", email).eq("password", pass).findUnique();
     }
 
+    /**
+     * Метод реализует поиск системных администраторов в системе
+     * @return Коллекцию администраторов
+     * @version 1.0
+     */
     public static List<User> findAdmins() {
         return find.where().eq("role", UserRole.SYSTEM_ADMIN).findList();
     }
 
+    /**
+     * Метод реализует первого (главного пользователя, владельца системы) в системе
+     * @return Коллекцию администраторов
+     * @version 1.0
+     */
     public static User findRoot() {
         return find.where().eq("email", RootUserSettings.EMAIL).findUnique();
     }
@@ -131,10 +158,7 @@ public class User extends Model {
 
     public static User createAdmin(String email, String name, String password) {
         // create user
-        User admin = new User();
-        admin.email = email;
-        admin.name = name;
-        admin.password = password;
+        User admin = new User(email, name, password);
         admin.role = UserRole.SYSTEM_ADMIN;
 
         // saving in DB

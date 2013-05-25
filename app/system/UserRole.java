@@ -3,10 +3,11 @@ package system;
 
 /**
  * <p>
- * Provides importance types of User.
+ * Класс содержит паттерны форматирования данных в приложении.
  * </p>
  *
  * @author Mikhail Vatalev(m.vatalev@euroats.com)
+ * @version 1.0
  */
 
 

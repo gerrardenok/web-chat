@@ -8,9 +8,11 @@ import play.mvc.With;
 
 /**
  * <p>
- * Provides public actions without security checks.
+ * Контроллер реализующий действия пользователей без проверок безопастности. {@link User}
  * </p>
  *
+ * @author Mikhail Vatalev(m.vatalev@euroats.com)
+ * @version 1.0
  */
 
 public class Public extends Application {

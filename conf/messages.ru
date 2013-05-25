@@ -24,6 +24,10 @@ page.header.links.rooms=Комнаты
 page.home.title=Домашняя страница
 page.sign_up.title=Регистрация
 page.features.title=Сделать
+page.error.404=Страница не найдена
+page.error.unknow=Неизветсная ошибка
+page.documentation.title=Документация
+
 
 #login form
 login.registration.offer=Если у вас нет аккаунта вы можете

@@ -1,3 +1,7 @@
 @()
 
-<h1>Unknow Error</h1>
+@views.html.template_main(Messages("page.error.unknow")){
+    <center>
+        <h1>@Messages("page.error.unknow")</h1>
+    </center>
+}

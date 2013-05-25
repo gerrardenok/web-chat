@@ -1,4 +1,3 @@
-
 @(message:models.Message)
 
 @loggedUser = @{actions.GlobalContextParams.loggedUser()}
@@ -13,6 +12,6 @@
 }
 <div class="message-wrapper">
     <span class="label @userNameColor sender-name">@if(message != null){@message.getSender.name}</span>
-    <span class="label sending-date pull-right">@if(message != null){@message.send.toString(system.Formatter.DATE_TIME_JODA_FORMATTER)}</span>
+    <i class="muted sending-date pull-right">@if(message != null){@message.send.toString(system.Formatter.DATE_TIME_JODA_FORMATTER)}</i>
     <span class="send-message">@if(message != null){@message.message}</span>
 </div>

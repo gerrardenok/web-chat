@@ -10,12 +10,14 @@ import system.UserRoomRole;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * <p>
- * Represents the chat room entity.
+ * Представляет сущность Комнаты чата которая храниться в базе данных.
  * </p>
  *
  * @author Mikhail Vatalev(m.vatalev@euroats.com)
+ * @version 1.0
  */
 
 @Entity
@@ -57,14 +59,31 @@ public class Room extends Model {
 
     public static final Finder<Long, Room> find = new Finder<Long, Room>(Long.class, Room.class);
 
+    /**
+     * Метод реализует поиск комнаты в базе по уникальному ключу
+     * @param id уникальный индификатор комнаты
+     * @return Объект комнаты
+     * @version 1.0
+     */
     public static Room findById(final Long id) {
         return find.where().eq("id", id).findUnique();
     }
 
+    /**
+     * Метод проверяет существует ли пользователь с уникальному ключом в базе
+     * @param id уникальный индификатор комнаты
+     * @return результат поиска
+     * @version 1.0
+     */
     public static boolean hasWithId(final Long id) {
         return find.where().eq("id", id).findRowCount() > 0;
     }
 
+    /**
+     * Метод выберает из базы общую комнату для всех пользователей
+     * @return Объект общей комнаты
+     * @version 1.0
+     */
     public static Room findDefaultRoom() {
         return find.where().eq("status", ChatRoomStatus.DEFAULT).findUnique();
     }
@@ -72,6 +91,10 @@ public class Room extends Model {
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    /**
+     * Метод реализует создания первой комнаты при отсутсвии токавой или первом запуске приложения.
+     * @version 1.0
+     */
     public static void CreateDefaultRoom() {
         Room defaultRoom = new Room("Default room");
         // check this room as default

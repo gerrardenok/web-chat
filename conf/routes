@@ -5,6 +5,9 @@
 # Home page
 GET     /                           controllers.Application.index()
 GET     /lang/:code                 controllers.Public.changeLanguage(code: String)
+GET     /internal_error             controllers.Application.internal_server_error()
+GET     /not_found                  controllers.Application.not_found()
+GET     /documentation              controllers.Application.documentation()
 
 GET     /features                   controllers.Application.features()
 
@@ -24,5 +27,10 @@ GET     /room/:id/user/list         controllers.Rooms.getUsers(id: Long)
 # Admin panel
 GET     /room/:id/admin_panel       controllers.Rooms.adminPanel(id: Long)
 
+# WebSockets chat
+# ~~~~~~~~~~~~~~~
+# GET     /chat/room/:id              controllers.WebSockets.connectToRoom(id: Long)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
+

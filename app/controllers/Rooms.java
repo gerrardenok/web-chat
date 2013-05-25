@@ -1,6 +1,7 @@
 package controllers;
 
 import actions.GlobalContextParams;
+import com.avaje.ebean.Transaction;
 import data.MessageDTO;
 import data.UserRelationshipDTO;
 import models.Message;
@@ -26,11 +27,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * <p>
+ * Контроллер реализующий действия пользователей в комнатах {@link Room}.
+ * </p>
+ *
  * @author Mikhail Vatalev(m.vatalev@euroats.com)
+ * @version 1.0
  */
-
 public class Rooms extends Application {
-
+    /**
+     * Метод отправки и сохранения сообщения в базе данных {@link Message}.
+     * Метод обрабатывает данные с формы (Http POST) преобразует в объект модели и сохраняет
+     * @return Сохранённое сообщение в JSON формате (признак успешной транзации)
+     * @version 1.0
+     */
     public static Result sendMessage() {
         // bind from request
         Form<MessageDTO> messageDTOForm = Form.form(MessageDTO.class).bindFromRequest();
@@ -63,6 +73,14 @@ public class Rooms extends Application {
         return ok(objectMapper.valueToTree(message));
     }
 
+    /**
+     * Метод реализовывает получение лога сообщений из комнаты по заданному интервалу
+     * @param id Уникальынй индификатор комнаты из которой пользователь запрашивает лог сообщений.
+     * @param from Дата начата интервала в миллисикундах начиная с 01.01.1970.
+     * @param to Дата конца интервала в миллисикундах начиная с 01.01.1970.
+     * @return Коллекцию сообщений в JSON форматею.
+     * @version 1.0
+     */
     public static Result getMessages(Long id, Long from, Long to) {
         User user = GlobalContextParams.loggedUser();
         if (user == null) {
@@ -83,6 +101,12 @@ public class Rooms extends Application {
         return ok(objectMapper.valueToTree(messages));
     }
 
+    /**
+     * Метод реазовывает получение всех пользователей из комнты.
+     * @param room_id Уникальынй индификатор комнаты из которой запрашивается коллекция пользователей.
+     * @return Коллекция пользователей в JSON формате.
+     * @version 1.0
+     */
     public static Result getUsers(Long room_id) {
         User user = GlobalContextParams.loggedUser();
         if (user == null) {
@@ -99,6 +123,12 @@ public class Rooms extends Application {
         return ok(toJson(result));
     }
 
+    /**
+     * Метод входа в админ панель комнаты (с проверками безопасности).
+     * @param id Уникальынй индификатор комнаты
+     * @return Html документ админ панели комнаты
+     * @version 2.0
+     */
     public static Result adminPanel(Long id) {
         User user = GlobalContextParams.loggedUser();
         if (user == null) {

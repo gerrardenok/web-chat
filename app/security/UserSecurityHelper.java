@@ -7,12 +7,12 @@ import actions.GlobalContextParams;
 
 /**
  * <p>
- * Provide the Users security helper methods.
+ * Класс реализует методы проверки безопастности для пользователей.
  * </p>
  *
  * @author Mikhail Vatalev(m.vatalev@euroats.com)
+ * @version 1.0
  */
-
 public class UserSecurityHelper {
 
     /**

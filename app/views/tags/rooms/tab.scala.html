@@ -23,4 +23,36 @@
     </div>
 </div>
 
+@*
+@views.helper.collectJS{
+<script type="text/javascript" charset="utf-8">
+    $(function() {
+        var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket
+        var chatSocket = new WS("@routes.WebSockets.connectToRoom(room.getId).webSocketURL(request)");
+
+        var sendMessage = function() {
+            chatSocket.send(JSON.stringify(
+                {text: "== test message =="}
+            ))
+        }
+        var receiveEvent = function(event) {
+            var data = JSON.parse(event.data)
+            // Handle errors
+            if(data.error) {
+                chatSocket.close()
+            } else {}
+
+            var handleReturnKey = function(e) {
+                if(e.charCode == 13 || e.keyCode == 13) {
+                    e.preventDefault()
+                    sendMessage()
+                }
+            }
+            chatSocket.onmessage = receiveEvent
+        }
+        setTimeout(function(){sendMessage()}, 2000);
+    });
+</script>
+}
+*@
 

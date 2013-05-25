@@ -7,6 +7,11 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import system.UserRoomRole;
 
+/**
+ * <p>Реализует модель для предачи данных об связях между пользоветем и комнатой чата {@link models.UserRoomRelationship}</p>
+ * @author Mikhail Vatalev(m.vatalev@euroats.com)
+ * @version 1.0
+ */
 public class UserRelationshipDTO {
     @JsonIgnore
     public User user;

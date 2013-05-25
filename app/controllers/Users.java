@@ -17,19 +17,30 @@ import java.util.List;
 
 /**
  * <p>
- * Represents the user's action. {@link models.User}
+ * Представляет действия совершаемые непосредственно пользователем. {@link models.User}
  * </p>
  *
  * @author Mikhail Vatalev(m.vatalev@euroats.com)
+ * @version 1.0
  */
 
 public class Users extends Application{
 
+    /**
+     * Метод предоставляет доступ к странце регистрации.
+     * @return Html документ страница регистрации.
+     * @version 1.0
+     */
     public static Result signUp() {
         Form<UserDTO> registrationForm = Form.form(UserDTO.class);
         return ok(views.html.pages.sign_up.render(registrationForm));
     }
 
+    /**
+     * Метод реализует вход пользоваетля ыв систему с проверкой безопастности.
+     * @return в случае прохождения проверок перенаправление на индексную страницу.
+     * @version 1.0
+     */
     public static Result signIn() {
         Form<AuthUser> authorizationForm = Form.form(AuthUser.class).bindFromRequest();
 
@@ -54,6 +65,11 @@ public class Users extends Application{
         return redirect(routes.Application.index());
     }
 
+    /**
+     * Метод выхода пользователя из системы (Прямая очичистка сесси пользователя).
+     * @return в случае прохождения проверок перенаправление на индексную страницу.
+     * @version 1.0
+     */
     public static Result signOut() {
         if(UserSecurityHelper.isUserLogged()) {
             session().clear();
@@ -62,6 +78,12 @@ public class Users extends Application{
         return redirect(routes.Application.index());
     }
 
+    /**
+     * Метод создания нового пользователя в приложении и сохранение его в базе данных.
+     * Метод получает данные с формы обрабатывает их валидирует и случае упеха сохранянет.
+     * @return в случае прохождения проверок перенаправление на индексную страницу.
+     * @version 1.0
+     */
     public static Result create() {
         Form<UserDTO> userForm = Form.form(UserDTO.class).bindFromRequest();
 
@@ -78,7 +100,9 @@ public class Users extends Application{
             return badRequest();
         }
 
-        User user = save(userDTO);
+        User user = new User(userDTO);
+        user.save();
+        Logger.info("Saving success: "+userDTO);
 
         // Add to default Room
         Room defaultRoom = Room.findDefaultRoom();
@@ -87,12 +111,5 @@ public class Users extends Application{
         }
 
         return redirect(routes.Application.index());
-    }
-
-    protected static User save(UserDTO userDTO) {
-        User user = new User(userDTO);
-        user.save();
-        Logger.info("Saving success: "+userDTO);
-        return user;
     }
 }

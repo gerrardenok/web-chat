@@ -5,10 +5,11 @@ import play.Configuration;
 
 /**
  * <p>
- * Contain the Default Settings of Root user in system
+ * Класс реализует получение настроек пользователя владельца приложения.
  * </p>
  *
  * @author Mikhail Vatalev(m.vatalev@euroats.com)
+ * @version 1.0
  */
 
 public abstract class RootUserSettings {

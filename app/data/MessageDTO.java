@@ -4,6 +4,11 @@ import models.Room;
 import org.joda.time.DateTime;
 import play.data.validation.Constraints;
 
+/**
+ * <p>Реализует модель для предачи данных сообщений между клиентом и сервером {@link models.Message}</p>
+ * @author Mikhail Vatalev(m.vatalev@euroats.com)
+ * @version 1.0
+ */
 public class MessageDTO {
     @Constraints.Required
     @Constraints.Email

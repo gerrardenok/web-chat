@@ -2,10 +2,11 @@ package system;
 
 /**
  * <p>
- * Provides importance types of Message.
+ * Предстваляет статусы сообщений в приложении {@link models.Message}.
  * </p>
  *
  * @author Mikhail Vatalev(m.vatalev@euroats.com)
+ * @version 1.0
  */
 
 public enum MessageStatus {
