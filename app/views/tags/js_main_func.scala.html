@@ -60,4 +60,21 @@ function userListRendering($list, data) {
         AddToUsersList($list, this);
     });
 }
+function sendMessageAJAX($form) {
+    $(document).ready(function(){
+        var $messageField = $("#message", $form);
+        if ($messageField.val() != "") {
+            $form.ajaxSubmit({
+                success: function(data){
+                    AddToLog($currentLog, data)
+                    // clear log
+                    $messageField.val("");
+                },
+                error: function(){
+                    alert("Error: on sending message")
+                }
+            });
+        }
+    });
+}
 </script>

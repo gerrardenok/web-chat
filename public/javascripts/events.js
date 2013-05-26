@@ -11,7 +11,7 @@ $(document).ready(function(){
                 logRendering($currentLog, data)
             },
             error : function(err) {
-                //console.log("Error on load messsages:"+err)
+                alert("Error on load messsages:"+err)
             }
         });
     });
@@ -25,7 +25,7 @@ $(document).ready(function(){
                 userListRendering($currentUsersList, data)
             },
             error : function(err) {
-                //console.log("Error on load users:"+err)
+                alert("Error on load users:"+err)
             }
         });
     });

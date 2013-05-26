@@ -31,8 +31,7 @@
             var $sendMessageForm = $("#sendMessageForm"),
                 $date = $("#date", $sendMessageForm),
                 $from = $("#from", $sendMessageForm),
-                $to = $("#to", $sendMessageForm),
-                $message = $("#message", $sendMessageForm);
+                $to = $("#to", $sendMessageForm);
 
             $date.val(moment().utc().valueOf());
             // Filling form
@@ -47,14 +46,19 @@
                 $date.val(moment().utc().valueOf());
 
                 // ajax send
-                $(this).ajaxSubmit({
-                    success: function(data){
-                        AddToLog($currentLog, data)
-                    },
-                    error: function(){
-                        console.log("Error: on sending message")
-                    }
-                });
+                sendMessageAJAX($sendMessageForm);
+            });
+        });
+    </script>
+}
+
+@views.helper.collectJS {
+    <script type="text/javascript" src="@routes.Assets.at("javascripts/vendor/jquery.hotkeys.js")"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var $sendMessageForm = $("#sendMessageForm");
+            $("#message").bind('keydown', 'ctrl+return', function(){
+                sendMessageAJAX($sendMessageForm);
             });
         });
     </script>
