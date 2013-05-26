@@ -1,5 +1,6 @@
 package controllers;
 
+import actions.GlobalContextParams;
 import data.AuthUser;
 import models.Room;
 import models.UserRoomRelationship;

@@ -1,5 +1,4 @@
 @(relationship: models.UserRoomRelationship)
-@import system.UserRoomRole
 
 @import system.ChatRoomStatus
 
@@ -23,6 +22,14 @@
     </div>
 </div>
 
+@views.helper.collectJS {
+    <script type="text/javascript">
+        var refreshLogIntervalID = setInterval(function(){ $(document).trigger('tab.log.refresh.day') }, 3000);
+        var refreshUsersIntervalID = setInterval(function(){ $(document).trigger('tab.users.list.load') }, 10000);
+    </script>
+}
+
+@* TODO websockets messages*@
 @*
 @views.helper.collectJS{
 <script type="text/javascript" charset="utf-8">

@@ -35,11 +35,11 @@
                 var room_id = $currentLog.closest(".tab-pane").attr("data-room-id");
                 jsRoutes.controllers.Rooms.getMessages(room_id, from, to).ajax({
                     success : function(data) {
-                        console.log("Messages:"+data)
+                        //console.log("Messages:"+data)
                         logRendering($currentLog, data)
                     },
                     error : function(err) {
-                        console.log("Error:"+err)
+                        //console.log("Error:"+err)
                     }
                 });
             });
