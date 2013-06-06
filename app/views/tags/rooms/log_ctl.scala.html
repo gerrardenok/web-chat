@@ -24,15 +24,15 @@
                 var to = moment().utc().valueOf(),
                     from;
                 if($(this).is($logCtlDay)) {
-                    from = moment().utc().subtract('days', 1).valueOf();
+                    tabLogDuration = moment().utc().subtract('days', 1).valueOf();
                 } else if($(this).is($logCtlWeek)) {
-                    from = moment().utc().subtract('days', 7).valueOf();
+                    tabLogDuration = moment().utc().subtract('days', 7).valueOf();
                 } else if($(this).is($logCtlMonth)) {
-                    from = moment().utc().subtract('months', 1).valueOf();
+                    tabLogDuration = moment().utc().subtract('months', 1).valueOf();
                 } else if($(this).is($logCtlThreeMonth)) {
-                    from = moment().utc().subtract('months', 3).valueOf();
+                    tabLogDuration = moment().utc().subtract('months', 3).valueOf();
                 }
-                var room_id = $currentLog.closest(".tab-pane").attr("data-room-id");
+                /*var room_id = $currentLog.closest(".tab-pane").attr("data-room-id");
                 jsRoutes.controllers.Rooms.getMessages(room_id, from, to).ajax({
                     success : function(data) {
                         //console.log("Messages:"+data)
@@ -41,7 +41,7 @@
                     error : function(err) {
                         //console.log("Error:"+err)
                     }
-                });
+                });*/
             });
         });
     </script>

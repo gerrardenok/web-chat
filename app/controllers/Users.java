@@ -1,6 +1,7 @@
 package controllers;
 
 import actions.GlobalContextParams;
+import com.avaje.ebean.annotation.Transactional;
 import data.AuthUser;
 import models.Room;
 import models.UserRoomRelationship;
@@ -85,6 +86,7 @@ public class Users extends Application{
      * @return в случае прохождения проверок перенаправление на индексную страницу.
      * @version 1.0
      */
+    @Transactional
     public static Result create() {
         Form<UserDTO> userForm = Form.form(UserDTO.class).bindFromRequest();
 

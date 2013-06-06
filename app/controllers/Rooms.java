@@ -2,6 +2,7 @@ package controllers;
 
 import actions.GlobalContextParams;
 import com.avaje.ebean.Transaction;
+import com.avaje.ebean.annotation.Transactional;
 import data.MessageDTO;
 import data.UserRelationshipDTO;
 import models.Message;
@@ -41,6 +42,7 @@ public class Rooms extends Application {
      * @return Сохранённое сообщение в JSON формате (признак успешной транзации)
      * @version 1.0
      */
+    @Transactional
     public static Result sendMessage() {
         // bind from request
         Form<MessageDTO> messageDTOForm = Form.form(MessageDTO.class).bindFromRequest();

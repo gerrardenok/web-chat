@@ -1,9 +1,10 @@
 /*Event js*/
 $(document).ready(function(){
     // load log for 1 day
-    $(document).on('tab.log.refresh.day', function(event) {
+    $(document).on('tab.log.refresh', function(event) {
         var to = moment().utc().valueOf(),
-            from = moment().utc().subtract('days', 1).valueOf(),
+            from = tabLogDuration;
+            //console.log(from);
             room_id = $currentLog.closest(".tab-pane").attr("data-room-id");
         jsRoutes.controllers.Rooms.getMessages(room_id, from, to).ajax({
             success : function(data) {

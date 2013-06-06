@@ -24,7 +24,7 @@
 
 @views.helper.collectJS {
     <script type="text/javascript">
-        var refreshLogIntervalID = setInterval(function(){ $(document).trigger('tab.log.refresh.day') }, 3000);
+        var refreshLogIntervalID = setInterval(function(){ $(document).trigger('tab.log.refresh') }, 3000);
         var refreshUsersIntervalID = setInterval(function(){ $(document).trigger('tab.users.list.load') }, 10000);
     </script>
 }

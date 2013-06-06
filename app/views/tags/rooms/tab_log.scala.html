@@ -1,15 +1,10 @@
 @(messages:List[models.Message])
 
 <section class="room-message-log">
-    <div class="well well-large ">
+    <div class="well well-large scrollable">
         @for(message <- messages) {
             @tags.rooms.message(message)
         }
     </div>
 </section>
 
-@views.helper.collectCSS {
-    <style>
-
-    </style>
-}

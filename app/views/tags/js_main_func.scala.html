@@ -52,6 +52,10 @@ function logRendering($log, data) {
         // create a clone
         AddToLog($log, this);
     });
+    // scroll to end
+    $log.animate({
+        scrollTop: $(this).height()
+    }, 2000);
 }
 
 function userListRendering($list, data) {
